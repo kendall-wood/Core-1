@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Entry 2</title>
+</head>
+
+<style type="text/css">
+	body {
+		font-size: 15px;
+		font-family: mytupi;
+		color: steelblue;
+		background-color: black;
+	}
+
+	video {
+		display: block; /* Ensures the video is a block element */
+		margin: 20px auto; /* Centers the video and adds vertical margin */
+	}
+
+	img {
+		width: 300px;
+		position: relative;
+		float: right;
+		margin-left: 10px;
+	}
+
+	p {
+		font-size: 15px;
+		font-family: mytupi;
+		color: steelblue;
+		position: relative;
+		text-align: center;
+	}
+
+	p2 {
+		font-size: 15px;
+		font-family: mytupi;
+		color: darkred;
+		position: relative;
+		text-align: center;
+	}
+
+	.player-links {
+		display: flex;
+		justify-content: center;
+		gap: 20px;
+		color: steelblue;
+		margin-bottom: 20px; /* Adds space below the player links */
+	}
+
+	a {
+		color: steelblue; 
+		text-decoration: none;
+		font-weight: bold; 
+		cursor: pointer; /* Changes the cursor to a pointer */
+	}
+
+	a:hover {
+		color: darkblue; 
+	}
+
+	a:visited {
+		color: steelblue; 
+	}
+</style>
+
+<body>
+
+<p>Who will win?</p>
+
+<div class="player-links">
+	<a href="#" onclick="playMedia('myAudio2'); return false;">Player 1</a>
+	<a href="#" onclick="playMedia('myAudio'); return false;">Player 2</a>
+</div>
+
+<video id="myVideo" width="400" muted loop>
+	<source src="Videos/kenny_miles.mp4" type="video/mp4">
+	<source src="Videos/kenny_miles.webm" type="video/webm">
+</video>
+
+<audio id="myAudio" preload="auto">
+    <source src="MilesDavisBlueInGreenOfficialAudiocopy.mp3" type="audio/mp3">
+</audio>
+
+<audio id="myAudio2" preload="auto">
+    <source src="Forgotten.mp3" type="audio/mp3">
+</audio>
+
+<img src="Images/michaelblue.png">
+<img src="Images/MEasbabby.png">
+<img src="Images/DENG.png">
+
+<p>I think some of my high school years showed the most authentic sides of people that I’ve seen.</p>
+
+<p>I think there’s something about going to an all boys school that establishes an environment of authenticity from the students at the institution.</p>
+
+<p>On everything I love these were some of the most unrestrained kids i've ever been around. The military environment spurs rebellion.</p>
+
+<p>I think it’s crazy that when dudes aren’t surrounded by girls they just act insane. You’d think they acted insane already the way they like to put on a consistently unsuccessful display of masculinity to any woman they find attractive, but something about that lack of expectation upon themselves to be desirable brings out the worst and best in them.</p> 
+
+<p>For better or worse, being unjudged makes them uncontrollable. I've come to believe that the larger essence of masculinity is impulse and lack of restraint.</p>
+
+<p2>Privilege provides incentive for infantilization.</p2>
+
+<p>I think youth as a whole holds an authenticity I miss from those around me. I feel like parsons is quite the particular environment, bringing a particular type of people from particular places to live a specified lifestyle. I don’t find that same authenticity, more so performative aesthetics.</p>
+
+<p>I’m the first person to jump at the opportunity for gluttony and the indulgences of the western lifestyle. The way in America we see our 20s as a time for exploration and further development makes me reflect on the authenticity we found in our youth, and how it only changes but never disappears. Maybe we are not rigid enough. Maybe we are more holistic than any. I think it explanations sound better than they actually are.</p>
+
+<p>I think one of the defining aspects of my upbringing was the consistent feeling of being underwhelmed with the intelligence of those older than me. The way I was raised Ive come to equate maturity and discipline with intelligence, and unfortunately even at times I can equate it with value. Maturity is not guaranteed for all people and that same authenticity I once loved became a nuisance.</p>
+
+<p>Is authenticity defined by doing what one feels all the time without restraint? Or is authenticity a relative, a slight extreme on the spectrum of how we choose to fit in around us? Would answering either make us act different? I don’t think we really want to lol</p>
+
+<p>I think I’m still trying to figure it out.</p>
+
+<p>Conformity is my friend and enemy fr</p>
+
+<script>
+	// Function to control audio and video playback
+	function playMedia(audioId) {
+		// Pause all audio elements
+		const audios = document.querySelectorAll('audio');
+		audios.forEach(audio => {
+			audio.pause();         // Pause all audio
+			audio.currentTime = 0; // Reset the audio to the beginning
+		});
+
+		// Get the new audio to play
+		const selectedAudio = document.getElementById(audioId);
+		selectedAudio.play(); // Play the selected audio
+
+		// Ensure the video is playing
+		const video = document.getElementById('myVideo');
+		video.play();
+	}
+</script>
+
+</body>
+</html>

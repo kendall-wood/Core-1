@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Entry 3</title>
+
+	<style type="text/css">
+		body {
+			font-size: 100px;
+			font-family: Times New Roman;
+			color: steelblue; 
+			position: relative; 
+			text-align: left;
+			background: black;
+		}
+
+		.container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: relative;
+		}
+
+		.images {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 20px;
+			position: relative;
+			z-index: 1;
+		}
+
+		img {
+			width: 300px;
+			height: auto;
+			animation: pulse 3s infinite;
+		}
+
+		img:nth-child(1) {
+			animation-delay: 0s;
+		}
+
+		img:nth-child(2) {
+			animation-delay: 0.5s;
+		}
+
+		img:nth-child(3) {
+			animation-delay: 1s;
+		}
+
+		img:nth-child(4) {
+			animation-delay: 1.5s;
+		}
+
+		img:nth-child(5) {
+			animation-delay: 2s;
+		}
+
+		img:nth-child(6) {
+			animation-delay: 2.5s;
+		}
+
+		@keyframes pulse {
+			0% {
+				transform: scale(1);
+				opacity: 1;
+			}
+			50% {
+				transform: scale(1.1);
+				opacity: 0.5;
+			}
+			100% {
+				transform: scale(1);
+				opacity: 1;
+			}
+		}
+	</style>
+</head>
+<body>
+	<p>LEDGEVIEW ELEMENTARY</p>
+
+	<div class="container">
+		<div class="images">
+			<img src="Images/mecollage.png" alt="Collage Image">
+			<img src="Images/mecollage.png" alt="Collage Image">
+			<img src="Images/mecollage.png" alt="Collage Image">
+			<img src="Images/mecollage.png" alt="Collage Image">
+			<img src="Images/mecollage.png" alt="Collage Image">
+			<img src="Images/mecollage.png" alt="Collage Image">
+		</div>
+	</div>
+	<p>The Clarence Elementary Program provides the building blocks for future learning. The goal is to prepare every Clarence student to be a lifelong learner who will grow to become a productive, contributing member of a diverse society. Students in grades K-5 receive a strong foundation in mathematics, language arts, science, and social studies with specialized instruction in art, music, library, and physical education.</p>
+
+</body>
+</html>

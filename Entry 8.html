@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouncing Ball Game</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            color: white;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            cursor: none;
+        }
+        #ball {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background-color: steelblue;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-size: 2em;
+            font-weight: bold;
+            user-select: none; /* Prevent text selection */
+        }
+        #timer {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 1.5em;
+        }
+        #times {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            text-align: right;
+            font-size: 1.2em;
+        }
+        /* Custom larger cursor for easier clicking */
+        body::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+<div id="ball">0</div>
+<div id="timer">Timer: 0.00s</div>
+<div id="times"></div>
+
+<script>
+    const ball = document.getElementById("ball");
+    const timerDisplay = document.getElementById("timer");
+    const timesDisplay = document.getElementById("times");
+
+    let xPos = 100, yPos = 100;
+    let xSpeed = 2, ySpeed = 2;
+    let initialBallSize = 300;
+    let ballSize = initialBallSize;
+    let timer = 0;
+    let timerRunning = false;
+    let timerInterval;
+    let hitCount = 0;
+    let isMoving = true;
+
+    function updatePosition() {
+        if (!isMoving) return;
+        if (xPos + ballSize > window.innerWidth || xPos < 0) xSpeed *= -1;
+        if (yPos + ballSize > window.innerHeight || yPos < 0) ySpeed *= -1;
+        xPos += xSpeed;
+        yPos += ySpeed;
+        ball.style.left = xPos + "px";
+        ball.style.top = yPos + "px";
+    }
+
+    function startTimer() {
+        timerRunning = true;
+        timerInterval = setInterval(() => {
+            timer += 0.01;
+            timerDisplay.textContent = `Timer: ${timer.toFixed(2)}s`;
+        }, 10);
+    }
+
+    function stopTimer() {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        timer = 0;
+    }
+
+    function resetBallSize() {
+        ballSize = initialBallSize;
+        ball.style.width = ballSize + "px";
+        ball.style.height = ballSize + "px";
+    }
+
+    ball.addEventListener("click", () => {
+        hitCount++;
+        ball.textContent = hitCount;
+
+        if (hitCount === 1 && !timerRunning) startTimer();
+
+        if (hitCount < 19) {
+            ballSize -= 10;
+            ball.style.width = ballSize + "px";
+            ball.style.height = ballSize + "px";
+        } else if (hitCount === 19) {
+            stopTimer();
+            isMoving = false;
+            const timeRecord = document.createElement("div");
+            timeRecord.textContent = `Reset at: ${timerDisplay.textContent.split(": ")[1]}`;
+            timesDisplay.appendChild(timeRecord);
+        } else if (hitCount === 20) {
+            hitCount = 0;
+            resetBallSize();
+            isMoving = true;
+            startTimer();
+        }
+    });
+
+    function animate() {
+        if (ball.style.display !== "none") updatePosition();
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+</script>
+
+</body>
+</html>

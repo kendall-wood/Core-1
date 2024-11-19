@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remember Meech</title>
+    <style>
+        /* Import Mytupi font */
+        @font-face {
+            font-family: 'Mytupi';
+            src: url('path-to-mytupi-font.woff2') format('woff2'); /* Update with the correct font path */
+        }
+
+        /* General styling for page */
+        body {
+            font-family: 'Mytupi', sans-serif;
+            background-color: black; /* Changed to black */
+            color: steelblue; /* Changed to steel blue */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center; /* Center text alignment */
+            flex-direction: column;
+            user-select: none; /* Prevent text selection on the entire page */
+        }
+
+        /* Styling for the press text */
+        #pressText {
+            font-size: 16px;
+            color: steelblue; /* Steel blue for the press text */
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            display: inline-block; /* Make it behave like a button */
+            text-align: center;
+        }
+
+        /* Container for the 'Meech' names */
+        #meech-container {
+            max-width: 1000px;
+            height: 200px; /* Fixed height to avoid page movement */
+            overflow-y: auto; /* Allow vertical scrolling */
+            margin: 0 auto;
+            font-size: 12px; /* Small text size */
+            white-space: pre-wrap; /* Preserve spaces */
+            text-align: center; /* Center align the names */
+            margin-bottom: 20px;
+        }
+
+        /* Press count styling */
+        #press-count {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        /* Styling for image and video */
+        #media-container {
+            margin-bottom: 20px; /* Space below media */
+        }
+
+        img, video {
+            max-width: 300px; /* Limit to 300 pixels wide */
+            width: 100%; /* Responsive images and videos */
+            display: block; /* Center block elements */
+            margin: 20px auto; /* Centered with margin */
+            filter: grayscale(100%) hue-rotate(210deg) saturate(2); /* Black & white with blue tint */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Container for displaying random media -->
+    <div id="media-container" style="display: none;">
+        <img id="media-image" src="" alt="Media" style="display: none;">
+        <video id="media-video" style="display: none;" controls autoplay>
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <h1 id="remember-meech">Remember Meech</h1>
+    <div id="pressText">Press</div> <!-- Reverted back to Press -->
+
+    <!-- Container to hold the 'Meech' names -->
+    <div id="meech-container"></div>
+
+    <!-- Press count display -->
+    <div id="press-count">Memories: 0</div> <!-- Changed label to Memories -->
+
+    <script>
+        const pressText = document.getElementById('pressText');
+        const meechContainer = document.getElementById('meech-container');
+        const pressCountDisplay = document.getElementById('press-count');
+        const mediaImage = document.getElementById('media-image');
+        const mediaVideo = document.getElementById('media-video');
+        const mediaContainer = document.getElementById('media-container');
+        let pressCount = 0;
+        let meechCount = 0;
+
+        // Array of media sources
+        const mediaSources = [
+            { type: 'image', src: 'lpimage3.png' }, // First image
+            { type: 'image', src: 'lpimage2.JPG' }, // Second image
+            { type: 'video', src: 'IMG0476.MOV' } // Video
+        ];
+
+        pressText.addEventListener('click', () => {
+            if (meechCount < 190) { // Limit to 190 inputs
+                // Add 'Meech' followed by a space
+                meechContainer.textContent += 'Meech ';
+
+                // Start a new line every 19 names
+                if ((meechCount + 1) % 19 === 0) {
+                    meechContainer.textContent += '\n'; 
+                }
+
+                meechCount++;
+
+                // Update the press counter
+                pressCount++;
+                pressCountDisplay.textContent = `Memories: ${pressCount}`; // Update press count display
+            }
+
+            // Show random media when 190 names are reached
+            if (meechCount === 190) {
+                mediaContainer.style.display = 'block'; // Show the media container
+                const randomIndex = Math.floor(Math.random() * mediaSources.length);
+                const selectedMedia = mediaSources[randomIndex];
+
+                // Positioning the media above "Remember Meech"
+                const rememberMeechHeader = document.getElementById('remember-meech');
+
+                // Ensure the selected media source is valid before displaying it
+                if (selectedMedia && selectedMedia.src) {
+                    if (selectedMedia.type === 'image') {
+                        mediaImage.src = selectedMedia.src;
+                        mediaImage.style.display = 'block'; // Show the image
+                        mediaVideo.style.display = 'none'; // Hide video
+                        rememberMeechHeader.insertAdjacentElement('beforebegin', mediaImage); // Place above the header
+                    } else if (selectedMedia.type === 'video') {
+                        mediaVideo.querySelector('source').src = selectedMedia.src;
+                        mediaVideo.load();
+                        mediaVideo.style.display = 'block'; // Show video
+                        mediaImage.style.display = 'none'; // Hide image
+                        rememberMeechHeader.insertAdjacentElement('beforebegin', mediaVideo); // Place above the header
+                    }
+                } else {
+                    console.error('Invalid media source:', selectedMedia);
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

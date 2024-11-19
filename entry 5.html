@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video with Playable Pong Game and Scoreboard</title>
+    <link rel="stylesheet" href="blue.css"> <!-- Link to external CSS -->
+    <style>
+        /* Flexbox to position video and Pong side by side */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            background-color: black;
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        #scoreboard {
+            font-size: 24px;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        /* Adjustments to position video and Pong */
+        .game-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        video {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        canvas {
+            flex: 1;
+            background: black;
+            border: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Styled Video & Playable Pong Game</h1>
+
+    <!-- Scoreboard centered at the top -->
+    <div id="scoreboard">Player: 0 | AI: 0</div>
+
+    <div class="game-container">
+        <video autoplay muted loop>
+            <source src="Videos/cmchatmediavideo1jDAL4693urxr5IKWU2.mov" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- Pong Game Canvas -->
+        <canvas id="pong" width="500" height="300"></canvas>
+    </div>
+
+    <script>
+        // Pong Game JavaScript
+        const canvas = document.getElementById("pong");
+        const context = canvas.getContext("2d");
+        const scoreboard = document.getElementById("scoreboard");
+
+        // Paddle setup
+        const paddleWidth = 10, paddleHeight = 100;
+        let paddle1Y = canvas.height / 2 - paddleHeight / 2;
+        let paddle2Y = canvas.height / 2 - paddleHeight / 2;
+        const paddleSpeed = 5;
+        const paddle1MoveSpeed = 7; // Speed for user-controlled paddle
+
+        // Ball setup with slower speed
+        const ballSize = 10;
+        let ballX = canvas.width / 2 - ballSize / 2;
+        let ballY = canvas.height / 2 - ballSize / 2;
+        let ballSpeedX = 2;  // Reduced speed for slower ball movement
+        let ballSpeedY = 2;  // Reduced speed for slower ball movement
+
+        // Score variables
+        let playerScore = 0;
+        let aiScore = 0;
+
+        // User control
+        let paddle1Up = false, paddle1Down = false;
+
+        // Handle user input
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowUp') paddle1Up = true;
+            if (event.key === 'ArrowDown') paddle1Down = true;
+        });
+
+        document.addEventListener('keyup', (event) => {
+            if (event.key === 'ArrowUp') paddle1Up = false;
+            if (event.key === 'ArrowDown') paddle1Down = false;
+        });
+
+        // Function to update the scoreboard
+        function updateScoreboard() {
+            scoreboard.textContent = `Player: ${playerScore} | AI: ${aiScore}`;
+        }
+
+        // Game loop to move paddles and ball
+        function gameLoop() {
+            context.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+            // Move user-controlled paddle (Paddle 1)
+            if (paddle1Up && paddle1Y > 0) paddle1Y -= paddle1MoveSpeed;
+            if (paddle1Down && paddle1Y < canvas.height - paddleHeight) paddle1Y += paddle1MoveSpeed;
+
+            // AI-controlled paddle (Paddle 2)
+            if (paddle2Y + paddleHeight / 2 < ballY) paddle2Y += paddleSpeed;
+            else if (paddle2Y + paddleHeight / 2 > ballY) paddle2Y -= paddleSpeed;
+
+            // Draw paddles
+            context.fillStyle = "white";
+            context.fillRect(10, paddle1Y, paddleWidth, paddleHeight); // Paddle 1 (User)
+            context.fillRect(canvas.width - 20, paddle2Y, paddleWidth, paddleHeight); // Paddle 2 (AI)
+
+            // Draw ball
+            context.fillRect(ballX, ballY, ballSize, ballSize);
+
+            // Move ball
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+
+            // Ball collision with top and bottom
+            if (ballY <= 0 || ballY + ballSize >= canvas.height) ballSpeedY = -ballSpeedY;
+
+            // Ball collision with paddles
+            if (ballX <= 20 && ballY > paddle1Y && ballY < paddle1Y + paddleHeight) {
+                ballSpeedX = -ballSpeedX;
+            } else if (ballX + ballSize >= canvas.width - 20 && ballY > paddle2Y && ballY < paddle2Y + paddleHeight) {
+                ballSpeedX = -ballSpeedX;
+            }
+
+            // Reset ball if it goes offscreen and update score
+            if (ballX <= 0) {
+                aiScore++;
+                updateScoreboard();
+                resetBall();
+            } else if (ballX + ballSize >= canvas.width) {
+                playerScore++;
+                updateScoreboard();
+                resetBall();
+            }
+
+            requestAnimationFrame(gameLoop); // Keep the game loop going
+        }
+
+        // Function to reset the ball after scoring
+        function resetBall() {
+            ballX = canvas.width / 2 - ballSize / 2;
+            ballY = canvas.height / 2 - ballSize / 2;
+            ballSpeedX = -ballSpeedX; // Send ball in opposite direction after score
+        }
+
+        gameLoop(); // Start the game loop
+    </script>
+
+</body>
+</html>
